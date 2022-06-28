@@ -1,3 +1,4 @@
+local oldnamecall
 oldnamecall = hookmetamethod(game, "__namecall", function(Self, ...)
     local Method = getnamecallmethod()
     local Args = {...}
@@ -9,3 +10,5 @@ oldnamecall = hookmetamethod(game, "__namecall", function(Self, ...)
     end
     return oldnamecall(Self, unpack(Args))
 end)
+
+RunService:BindToRenderStep("sa", 120, silentClosetPlayer)
