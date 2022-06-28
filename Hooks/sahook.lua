@@ -1,4 +1,3 @@
-local oldnamecall
 oldnamecall = hookmetamethod(game, "__namecall", function(Self, ...)
     local Method = getnamecallmethod()
     local Args = {...}
