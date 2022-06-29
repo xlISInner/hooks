@@ -1,9 +1,12 @@
-local oldwalls
-oldwalls = hookmetamethod(game, "__namecall", function(Self, ...)
-    local Method = getnamecallmethod()
+local mt = getrawmetatable(game)
+local namecallold = mt.__namecall
+local index = mt.__index
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(self, ...)
     local Args = {...}
-    if Method == "FindPartOnRayWithIgnoreList" and Toggles.wallsBypassTgl.Value == true then
+    NamecallMethod = getnamecallmethod()
+    if tostring(NamecallMethod) == "FindPartOnRayWithIgnoreList" and Toggles.wallsBypassTgl.Value == true then
         table.insert(Args[2], workspace.Map)
     end
-    return oldwalls(Self, unpack(Args))
+    return namecallold(self, ...)
 end)
