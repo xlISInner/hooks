@@ -478,24 +478,7 @@ Players.PlayerAdded:Connect(playeradded)
     ##################
 ]]
 
-function destroy_chams(char)
 
-    for k,v in pairs(char:GetChildren()) do 
-
-        if v:IsA("BasePart") and v.Transparency ~= 1 then
-
-            if v:FindFirstChild("Glow") and v:FindFirstChild("Chams") then
-
-                v.Glow:Destroy()
-                v.Chams:Destroy() 
-
-            end 
-
-        end 
-
-    end 
-
-end
 
 RunService.Heartbeat:Connect(function()
     if Toggles.chamsTgl.Value then
@@ -561,7 +544,12 @@ RunService.Heartbeat:Connect(function()
     else
         for i,v in pairs(Players:GetPlayers()) do
             if v.Character then
-                destroy_chams(v.Character)
+                for k,g in pairs(v.Character:GetChildren()) do 
+                    if g:FindFirstChild("Glow") and v:FindFirstChild("Chams") then
+                        g.Glow:Destroy()
+                        g.Chams:Destroy() 
+                    end 
+                end 
             end
         end
     end
