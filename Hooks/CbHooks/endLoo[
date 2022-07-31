@@ -55,7 +55,7 @@ while task.wait() do
 
     if Toggles.bloomToggle.Value == true then
         for i,v in pairs(Lighting:GetChildren()) do
-            if v:IsA('BloomEffect') then
+            if v:IsA('BloomEffect0') then
                 v:Destroy()
             end
         end
@@ -92,14 +92,18 @@ while task.wait() do
         game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
         game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
         for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
-            v.Transparency = 1
+            if v:IsA("Part") or v:IsA("MeshPart") then
+                v.Transparency = 1
+            end
         end
     else
         LocalPlayer.CameraMode = 'LockFirstPerson'
         game.Players.LocalPlayer.CameraMaxZoomDistance = 0
         game.Players.LocalPlayer.CameraMinZoomDistance = 0
         for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
-            v.Transparency = 0
+            if v:IsA("Part") or v:IsA("MeshPart") then
+                v.Transparency = 0
+            end
         end
     end
 
