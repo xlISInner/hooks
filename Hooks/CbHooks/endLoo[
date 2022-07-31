@@ -1,4 +1,7 @@
 local Lighting = game:GetService("Lighting")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
 function characterrotate(pos)
     pcall(function()
