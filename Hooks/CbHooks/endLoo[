@@ -124,35 +124,42 @@ while task.wait() do
         end
     end
 
-    if Toggles.armsChamsTgl.Value then
+    if Toggles.removeSleeveTgl.Value and not Toggles.armsChamsTgl.Value then
         if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
             wait()
+        else
+            for i,v in pairs(game:GetService("Workspace").Camera:FindFirstChild("Arms"):GetDescendants()) do
+                if v.Name == 'Sleeve' then
+                    v.Transparency = 1
+                end
+            end
         end
-        if game:GetService("Workspace").Camera:FindFirstChild("Arms") then
-            local arms = workspace.Camera.Arms
-            for i,v in next, arms:GetChildren() do
-                if v:IsA"Model" then
-                    for _i,_v in next, v:GetDescendants() do
-                        if Toggles.removeSleeveTgl.Value then
-                            _v:Destroy()
-                        end
-                        if Toggles.armsChamsTgl.Value then
-                            if hasProperty(_v,"CastShadow") then _v.CastShadow = false end
-                            if _v:IsA"SpecialMesh" then
-                                _v.VertexColor = Vector3.new(Options.armsColor.Value)
-                            end
-                            if _v:IsA"Part" then
-                                _v.Material = Options.armsChamsMaterial.Value
-                                _v.Transparency = 0.5
-                                v.Color = Options.armsColor.Value
-                                if _v.Transparency == 1 then continue end
-                            end
-                        end
-                    end
+    else
+        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
+            wait()
+        else
+            for i,v in pairs(game:GetService("Workspace").Camera:FindFirstChild("Arms"):GetDescendants()) do
+                if v.Name == 'Sleeve' then
+                    v.Transparency = 0
                 end
             end
         end
     end
+    
+
+    if Toggles.armsChamsTgl.Value then
+        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
+            wait()
+        else
+            for i,v in pairs(game:GetService("Workspace").Camera:FindFirstChild("Arms"):GetDescendants()) do
+                if v.Name == 'Sleeve' then
+                    v.Material = Options.armsChamsMaterial.Value
+                    v.Color = Options.armsColor.Value
+                end
+            end
+        end
+    end
+
 
     if Toggles.selfChamsTgl.Value then
         for i,v in pairs(LocalPlayer.Character:GetChildren()) do
