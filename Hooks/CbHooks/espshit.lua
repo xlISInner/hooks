@@ -152,7 +152,7 @@ Toggles.boxesTGL:OnChanged(function()
                         Box.Visible = Toggles.boxesTGL.Value
                         Box.Color = Options.Boxes_Color.Value
 
-                        HealthBarOutline.Size = Vector2.new(2, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -10)
+                        HealthBarOutline.Size = Vector2.new(2, HeadPosition.Y - LegPosition.Y)
                         HealthBarOutline.Position = BoxOutline.Position - Vector2.new(6,0)
                         HealthBarOutline.Visible = Toggles.toggleHpBar.Value
 
