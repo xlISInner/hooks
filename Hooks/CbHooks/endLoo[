@@ -125,7 +125,10 @@ while task.wait() do
     end
 
     if Toggles.armsChamsTgl.Value then
-        if workspace.Camera:FindFirstChild("Arms") then
+        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
+            wait()
+        end
+        if game:GetService("Workspace").Camera:FindFirstChild("Arms") then
             local arms = workspace.Camera.Arms
             for i,v in next, arms:GetChildren() do
                 if v:IsA"Model" then
