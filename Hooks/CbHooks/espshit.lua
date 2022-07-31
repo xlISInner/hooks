@@ -2,8 +2,8 @@ local Camera = workspace.CurrentCamera
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
-
-
+local WorldToScreen = Camera.WorldToScreenPoint
+local WorldToViewportPoint = Camera.WorldToViewportPoint
 
 Toggles.boxesTGL:OnChanged(function()
     local HeadOff = Vector3.new(0, 0.5, 0)
@@ -45,9 +45,9 @@ Toggles.boxesTGL:OnChanged(function()
     
                     local RootPart = v.Character.HumanoidRootPart
                     local Head = v.Character.Head
-                    local RootPosition, RootVis = Camera:WorldToViewportPoint(Camera, RootPart.Position)
-                    local HeadPosition = Camera:WorldToViewportPoint(Camera, Head.Position + HeadOff)
-                    local LegPosition = Camera:WorldToViewportPoint(Camera, RootPart.Position - LegOff)
+                    local RootPosition, RootVis = WorldToViewportPoint(Camera, RootPart.Position)
+                    local HeadPosition = WorldToViewportPoint(Camera, Head.Position + HeadOff)
+                    local LegPosition = WorldToViewportPoint(Camera, RootPart.Position - LegOff)
     
                     if onScreen then
                         BoxOutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -5)
@@ -138,9 +138,9 @@ Toggles.boxesTGL:OnChanged(function()
     
                     local RootPart = v.Character.HumanoidRootPart
                     local Head = v.Character.Head
-                    local RootPosition, RootVis = Camera:WorldToViewportPoint(Camera, RootPart.Position)
-                    local HeadPosition = Camera:WorldToViewportPoint(Camera, Head.Position + HeadOff)
-                    local LegPosition = Camera:WorldToViewportPoint(Camera, RootPart.Position - LegOff)
+                    local RootPosition, RootVis = WorldToViewportPoint(Camera, RootPart.Position)
+                    local HeadPosition = WorldToViewportPoint(Camera, Head.Position + HeadOff)
+                    local LegPosition = WorldToViewportPoint(Camera, RootPart.Position - LegOff)
     
                     if onScreen then
                         BoxOutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -5)
