@@ -3,9 +3,13 @@ local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-function hasProperty(ins,pro)
-    return pcall(function() _=ins[pro] end)
+function hasProperty(object, propertyName)
+    local success, _ = pcall(function() 
+        object[propertyName] = object[propertyName]
+    end)
+    return success
 end
+
 
 function characterrotate(pos)
     pcall(function()
@@ -95,20 +99,10 @@ while task.wait() do
         LocalPlayer.CameraMode = 'Classic'
         game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
         game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
-        for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
-            if v:IsA("Part") then
-                v.Transparency = 1
-            end
-        end
     else
         LocalPlayer.CameraMode = 'LockFirstPerson'
         game.Players.LocalPlayer.CameraMaxZoomDistance = 0
         game.Players.LocalPlayer.CameraMinZoomDistance = 0
-        for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
-            if v:IsA("Part") then
-                v.Transparency = 1
-            end
-        end
     end
 
     if Toggles.weaponChamsTgl.Value then
@@ -123,43 +117,7 @@ while task.wait() do
             end
         end
     end
-
-    if Toggles.removeSleeveTgl.Value and not Toggles.armsChamsTgl.Value then
-        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
-            wait()
-        else
-            for i,v in pairs(game:GetService("Workspace").Camera:FindFirstChild("Arms"):GetDescendants()) do
-                if v.Name == 'Sleeve' then
-                    v.Transparency = 1
-                end
-            end
-        end
-    else
-        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
-            wait()
-        else
-            for i,v in pairs(game:GetService("Workspace").Camera:FindFirstChild("Arms"):GetDescendants()) do
-                if v.Name == 'Sleeve' then
-                    v.Transparency = 0
-                end
-            end
-        end
-    end
     
-
-    if Toggles.armsChamsTgl.Value then
-        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
-            wait()
-        else
-            for i,v in pairs(game:GetService("Workspace").Camera:FindFirstChild("Arms"):GetDescendants()) do
-                if v.Name == 'Sleeve' then
-                    v.Material = Options.armsChamsMaterial.Value
-                    v.Color = Options.armsColor.Value
-                end
-            end
-        end
-    end
-
 
     if Toggles.selfChamsTgl.Value then
         for i,v in pairs(LocalPlayer.Character:GetChildren()) do
