@@ -3,6 +3,10 @@ local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
+function hasProperty(ins,pro)
+    return pcall(function() _=ins[pro] end)
+end
+
 function characterrotate(pos)
     pcall(function()
         if game.Players.LocalPlayer.Character then
@@ -120,6 +124,33 @@ while task.wait() do
         end
     end
 
+    if Toggles.armsChamsTgl.Value then
+        if workspace.Camera:FindFirstChild("Arms") then
+            local arms = workspace.Camera.Arms
+            for i,v in next, arms:GetChildren() do
+                if v:IsA"Model" then
+                    for _i,_v in next, v:GetDescendants() do
+                        if Toggles.removeSleeveTgl.Value then
+                            _v:Destroy()
+                        end
+                        if Toggles.armsChamsTgl.Value then
+                            if hasProperty(_v,"CastShadow") then _v.CastShadow = false end
+                            if _v:IsA"SpecialMesh" then
+                                _v.VertexColor = Vector3.new(Options.armsColor.Value)
+                            end
+                            if _v:IsA"Part" then
+                                _v.Material = Options.armsChamsMaterial.Value
+                                _v.Transparency = 0.5
+                                v.Color = Options.armsColor.Value
+                                if _v.Transparency == 1 then continue end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
     if Toggles.selfChamsTgl.Value then
         for i,v in pairs(LocalPlayer.Character:GetChildren()) do
             if v.Parent ~= nil then
@@ -130,5 +161,4 @@ while task.wait() do
             end
         end
     end
-
 end
