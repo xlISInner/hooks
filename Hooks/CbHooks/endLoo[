@@ -96,8 +96,10 @@ while task.wait() do
         game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
         game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
         for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
-            if v:IsA("Part") then
-                v.Transparency = 1
+            if string.match(string.lower(v.Name), "arms") then
+                if v:IsA("Part") then
+                    v.Transparency = 1
+                end
             end
         end
     else
@@ -105,8 +107,10 @@ while task.wait() do
         game.Players.LocalPlayer.CameraMaxZoomDistance = 0
         game.Players.LocalPlayer.CameraMinZoomDistance = 0
         for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
-            if v:IsA("Part") then
-                v.Transparency = 0
+            if string.match(string.lower(v.Name), "arms") then
+                if v:IsA("Part") then
+                    v.Transparency = 1
+                end
             end
         end
     end
