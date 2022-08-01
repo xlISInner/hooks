@@ -74,16 +74,6 @@ while task.wait() do
         Lighting['rgkbloom'].Intensity = Options.bloomIntensity.Value
         Lighting['rgkbloom'].Size = Options.bloomSize.Value
         Lighting['rgkbloom'].Threshold = Options.bloomThreshold.Value
-        if Lighting:FindFirstChild('rgkbloom') then
-            spawn(function()
-                repeat
-                    Lighting['rgkbloom'].Intensity = Options.bloomIntensity.Value
-                    Lighting['rgkbloom'].Size = Options.bloomSize.Value
-                    Lighting['rgkbloom'].Threshold = Options.bloomThreshold.Value
-                    task.wait()
-                until Toggles.bloomToggle.Value == false
-            end)
-        end
     elseif Toggles.bloomToggle.Value == false then
         if not Lighting:FindFirstChild("rgkbloom") then return end
         for i,v in pairs(Lighting:GetChildren()) do
