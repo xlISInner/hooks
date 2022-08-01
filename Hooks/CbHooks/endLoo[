@@ -10,7 +10,7 @@ function hasProperty(object, propertyName)
     return success
 end
 
-Toggles.thirdpersonkey:OnChanged(function()
+Toggles.thirdpersonTGL:OnChanged(function()
     if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
         UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
         LocalPlayer.CameraMode = 'Classic'
