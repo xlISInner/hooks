@@ -514,10 +514,12 @@ end)
 ]]
 
 
+
 Toggles.chamsTgl:OnChanged(function()
     local l
     l = RunService.Heartbeat:Connect(function()
         if Toggles.chamsTgl.Value then
+            getgenv().chamsEnabled = true
             for i,v in pairs(Players:GetPlayers()) do
                 if v.Name ~= LocalPlayer.Name and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
                     if Toggles.teamEsp.Value and v.Team ~= 'TTT' then
@@ -581,9 +583,9 @@ Toggles.chamsTgl:OnChanged(function()
             for i,v in pairs(Players:GetPlayers()) do
                 if v.Character then
                     for k,g in pairs(v.Character:GetChildren()) do 
-                        if g:FindFirstChild("Glow") and v:FindFirstChild("Chams") then
+                        if g:FindFirstChild("Glow") and g:FindFirstChild("Chams") then
                             g.Glow:Destroy()
-                            g.Chams:Destroy() 
+                            g.Chams:Destroy()
                         end 
                     end 
                 end
