@@ -130,19 +130,4 @@ while task.wait() do
             end
         end
     end
-
-
-    if Toggles.chamsTgl.Value == false and getgenv().chamsEnabled == true then
-        for i,v in pairs(Players:GetPlayers()) do
-            if v.Character then
-                for k,g in pairs(v.Character:GetChildren()) do 
-                    if g:FindFirstChild("Glow") and v:FindFirstChild("Chams") then
-                        g.Glow:Destroy()
-                        g.Chams:Destroy()
-                    end 
-                end 
-            end
-        end
-        getgenv().chamsEnabled = false
-    end
 end
