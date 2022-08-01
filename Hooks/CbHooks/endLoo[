@@ -3,14 +3,6 @@ local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-function hasProperty(object, propertyName)
-    local success, _ = pcall(function() 
-        object[propertyName] = object[propertyName]
-    end)
-    return success
-end
-
-
 function characterrotate(pos)
     pcall(function()
         if game.Players.LocalPlayer.Character then
@@ -27,9 +19,8 @@ function characterrotate(pos)
     end)
 end
 
-while task.wait() do
-
-    if Toggles.antiAimTgl.Value == true then
+Toggles.antiAimTgl:OnChanged(function()
+    while Toggles.antiAimTgl.Value do
         if Options.yawValue.Value == 'Back' then
             characterrotate((workspace.CurrentCamera.CFrame * CFrame.new(-4, 0, 0)).p)
         elseif Options.yawValue.Value == 'Spin' then
@@ -51,62 +42,40 @@ while task.wait() do
                 spin:Destroy()
             end
         end
+        task.wait()
     end
+end)
 
-    if Toggles.colorCorrectionEffect.Value == true then
+
+Toggles.colorCorrectionEffect:OnChanged(function()
+    while Toggles.colorCorrectionEffect.Value do
         for i,v in pairs(Lighting:GetChildren()) do
             if v:IsA('ColorCorrectionEffect') then
                 v.TintColor = Options.colorCorrectionColor.Value
             end
         end
+        task.wait()
     end
+end)
 
-    if Toggles.bloomToggle.Value == true then
-        for i,v in pairs(Lighting:GetChildren()) do
-            if v:IsA('BloomEffect0') then
-                v:Destroy()
-            end
+Toggles.thirdpersonTGL:OnChanged(function()
+    while Toggles.thirdpersonTGL.Value do
+        if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
+            UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
+            LocalPlayer.CameraMode = 'Classic'
+            game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
+            game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
+        else
+            LocalPlayer.CameraMode = 'LockFirstPerson'
+            game.Players.LocalPlayer.CameraMaxZoomDistance = 0
+            game.Players.LocalPlayer.CameraMinZoomDistance = 0
         end
-        local effect = Instance.new('BloomEffect')
-        effect.Parent = Lighting
-        effect.Name = 'rgkbloom'
-
-        Lighting['rgkbloom'].Intensity = Options.bloomIntensity.Value
-        Lighting['rgkbloom'].Size = Options.bloomSize.Value
-        Lighting['rgkbloom'].Threshold = Options.bloomThreshold.Value
-        if Lighting:FindFirstChild('rgkbloom') then
-            spawn(function()
-                repeat
-                    Lighting['rgkbloom'].Intensity = Options.bloomIntensity.Value
-                    Lighting['rgkbloom'].Size = Options.bloomSize.Value
-                    Lighting['rgkbloom'].Threshold = Options.bloomThreshold.Value
-                    task.wait()
-                until Toggles.bloomToggle.Value == false
-            end)
-        end
-    elseif Toggles.bloomToggle.Value == false then
-        if not Lighting:FindFirstChild("rgkbloom") then return end
-        for i,v in pairs(Lighting:GetChildren()) do
-            if v.Name == 'rgkbloom' then
-                v:Destroy()
-            end
-        end
+        task.wait()
     end
+end)
 
-
-
-    if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
-        UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
-        LocalPlayer.CameraMode = 'Classic'
-        game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
-        game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
-    else
-        LocalPlayer.CameraMode = 'LockFirstPerson'
-        game.Players.LocalPlayer.CameraMaxZoomDistance = 0
-        game.Players.LocalPlayer.CameraMinZoomDistance = 0
-    end
-
-    if Toggles.weaponChamsTgl.Value then
+Toggles.weaponChamsTgl:OnChanged(function()
+    while Toggles.weaponChamsTgl.Value do
         if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
             wait()
         else
@@ -117,10 +86,32 @@ while task.wait() do
                 end
             end
         end
+        task.wait()
     end
-    
+end)
 
-    if Toggles.selfChamsTgl.Value then
+Toggles.bloomToggle:OnChanged(function()
+    while Toggles.bloomToggle.Value do
+        for i,v in pairs(Lighting:GetChildren()) do
+            if v:IsA('BloomEffect') then
+                v:Destroy()
+            end
+        end
+        if not Lighting:FindFirstChild('rgkbloom') then
+            local effect = Instance.new('BloomEffect')
+            effect.Parent = Lighting
+            effect.Name = 'rgkbloom'
+        end
+
+        Lighting['rgkbloom'].Intensity = Options.bloomIntensity.Value
+        Lighting['rgkbloom'].Size = Options.bloomSize.Value
+        Lighting['rgkbloom'].Threshold = Options.bloomThreshold.Value
+    task.wait()
+    end
+end)
+
+Toggles.selfChamsTgl:OnChanged(function()
+    while Toggles.selfChamsTgl.Value do
         for i,v in pairs(LocalPlayer.Character:GetChildren()) do
             if v.Parent ~= nil then
                 if v:IsA('BasePart') and v.Transparency ~= 1 then
@@ -129,5 +120,6 @@ while task.wait() do
                 end
             end
         end
+        task.wait()
     end
-end
+end)
