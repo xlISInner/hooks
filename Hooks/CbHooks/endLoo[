@@ -10,19 +10,6 @@ function hasProperty(object, propertyName)
     return success
 end
 
-Toggles.thirdpersonTGL:OnChanged(function()
-    if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
-        UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
-        LocalPlayer.CameraMode = 'Classic'
-        game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
-        game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
-    else
-        LocalPlayer.CameraMode = 'LockFirstPerson'
-        game.Players.LocalPlayer.CameraMaxZoomDistance = 0
-        game.Players.LocalPlayer.CameraMinZoomDistance = 0
-    end
-end)
-
 
 function characterrotate(pos)
     pcall(function()
@@ -104,6 +91,19 @@ while task.wait() do
                 v:Destroy()
             end
         end
+    end
+
+
+
+    if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
+        UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
+        LocalPlayer.CameraMode = 'Classic'
+        game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
+        game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
+    else
+        LocalPlayer.CameraMode = 'LockFirstPerson'
+        game.Players.LocalPlayer.CameraMaxZoomDistance = 0
+        game.Players.LocalPlayer.CameraMinZoomDistance = 0
     end
 
     if Toggles.weaponChamsTgl.Value then
