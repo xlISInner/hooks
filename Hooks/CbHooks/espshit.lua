@@ -217,9 +217,10 @@ end)
 ]]
 
 local function esp(p,cr)
-    local h = cr:WaitForChild("Humanoid")
-    wait()
-    local hrp = cr:WaitForChild("HumanoidRootPart")
+    spawn(function()
+        local h = cr:WaitForChild("Humanoid")
+        local hrp = cr:WaitForChild("HumanoidRootPart")
+    end)
 
     local text = Drawing.new("Text")
     text.Visible = false
