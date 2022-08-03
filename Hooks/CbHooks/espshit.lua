@@ -218,6 +218,7 @@ end)
 
 local function esp(p,cr)
     local h = cr:WaitForChild("Humanoid")
+    wait()
     local hrp = cr:WaitForChild("HumanoidRootPart")
 
     local text = Drawing.new("Text")
@@ -308,24 +309,23 @@ local function esp(p,cr)
     end)
 end
 
-pcall(function()
-    local function p_added(p)
-        if p.Character then
-            esp(p, p.Character)
-        end
-        p.CharacterAdded:Connect(function(cr)
-            esp(p,cr)
-        end)
+local function p_added(p)
+    if p.Character then
+        esp(p, p.Character)
     end
+    p.CharacterAdded:Connect(function(cr)
+        esp(p,cr)
+    end)
+end
     
-    for i,p in next, Players:GetPlayers() do 
-        if p ~= LocalPlayer then
-            p_added(p)
-        end
+for i,p in next, Players:GetPlayers() do 
+    if p ~= LocalPlayer then
+        p_added(p)
     end
+end
     
-    Players.PlayerAdded:Connect(p_added)
-end)
+Players.PlayerAdded:Connect(p_added)
+
 
 
 
