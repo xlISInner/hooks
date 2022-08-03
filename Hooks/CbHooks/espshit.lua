@@ -265,48 +265,53 @@ local function esp(p,cr)
         end
     end)
 
-    c3 = h.HealthChanged:Connect(function(v)
-        if (v<=0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
-            dc()
-        end
-    end)
-
-    c1 = RunService.RenderStepped:Connect(function()
-        local hrp_pos,hrp_onscreen = Camera:WorldToViewportPoint(hrp.Position)
-        if hrp_onscreen then
-            text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, -30)
-            text.Text = p.Name
-            text.Color = Options.Names_Color.Value
-
-            text1.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, 20)
-            text1.Text = tostring(ftool(cr))
-            text1.Color = Options.Weapon_Esp_Color.Value
-            
-            if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                text.Visible = Toggles.namesTGL.Value or false
-
-            elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
-                text.Visible = Toggles.namesTGL.Value
-                
-            elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                text.Visible = false
+    
+    pcall(function()
+        c3 = h.HealthChanged:Connect(function(v)
+            if (v<=0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
+                dc()
             end
-
-            if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                text1.Visible = Toggles.weaponEspTgl.Value or false
-
-            elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
-                text1.Visible = Toggles.weaponEspTgl.Value
+        end)
+    end)
+    
+    c1 = RunService.RenderStepped:Connect(function()
+        pcall(function()
+            local hrp_pos,hrp_onscreen = Camera:WorldToViewportPoint(hrp.Position)
+            if hrp_onscreen then
+                text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, -30)
+                text.Text = p.Name
+                text.Color = Options.Names_Color.Value
+    
+                text1.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, 20)
+                text1.Text = tostring(ftool(cr))
+                text1.Color = Options.Weapon_Esp_Color.Value
                 
-            elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                    text.Visible = Toggles.namesTGL.Value or false
+    
+                elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
+                    text.Visible = Toggles.namesTGL.Value
+                    
+                elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                    text.Visible = false
+                end
+    
+                if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                    text1.Visible = Toggles.weaponEspTgl.Value or false
+    
+                elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
+                    text1.Visible = Toggles.weaponEspTgl.Value
+                    
+                elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                    text1.Visible = false
+                end
+    
+    
+            else
+                text.Visible = false
                 text1.Visible = false
             end
-
-
-        else
-            text.Visible = false
-            text1.Visible = false
-        end
+        end)
     end)
 end
 
