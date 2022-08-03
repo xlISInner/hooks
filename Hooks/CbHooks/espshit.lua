@@ -217,10 +217,8 @@ end)
 ]]
 
 local function esp(p,cr)
-    spawn(function()
-        local h = cr:WaitForChild("Humanoid")
-        local hrp = cr:WaitForChild("HumanoidRootPart")
-    end)
+    local h = cr:WaitForChild("Humanoid", 3)
+    local hrp = cr:WaitForChild("HumanoidRootPart", 3)
 
     local text = Drawing.new("Text")
     text.Visible = false
@@ -265,82 +263,67 @@ local function esp(p,cr)
         end
     end)
 
-    
-    pcall(function()
-        c3 = h.HealthChanged:Connect(function(v)
-            if (v<=0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
-                dc()
-            end
-        end)
+    c3 = h.HealthChanged:Connect(function(v)
+        if (v<=0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
+            dc()
+        end
     end)
-    
+
     c1 = RunService.RenderStepped:Connect(function()
-        pcall(function()
-            local hrp_pos,hrp_onscreen = Camera:WorldToViewportPoint(hrp.Position)
-            if hrp_onscreen then
-                text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, -30)
-                text.Text = p.Name
-                text.Color = Options.Names_Color.Value
-    
-                text1.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, 20)
-                text1.Text = tostring(ftool(cr))
-                text1.Color = Options.Weapon_Esp_Color.Value
+        local hrp_pos,hrp_onscreen = Camera:WorldToViewportPoint(hrp.Position)
+        if hrp_onscreen then
+            text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, -30)
+            text.Text = p.Name
+            text.Color = Options.Names_Color.Value
+
+            text1.Position = Vector2.new(hrp_pos.X, hrp_pos.Y) + Vector2.new(0, 20)
+            text1.Text = tostring(ftool(cr))
+            text1.Color = Options.Weapon_Esp_Color.Value
+            
+            if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                text.Visible = Toggles.namesTGL.Value or false
+
+            elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
+                text.Visible = Toggles.namesTGL.Value
                 
-                if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                    text.Visible = Toggles.namesTGL.Value or false
-    
-                elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
-                    text.Visible = Toggles.namesTGL.Value
-                    
-                elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                    text.Visible = false
-                end
-    
-                if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                    text1.Visible = Toggles.weaponEspTgl.Value or false
-    
-                elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
-                    text1.Visible = Toggles.weaponEspTgl.Value
-                    
-                elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
-                    text1.Visible = false
-                end
-    
-    
-            else
+            elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
                 text.Visible = false
+            end
+
+            if Toggles.teamEsp.Value and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
+                text1.Visible = Toggles.weaponEspTgl.Value or false
+
+            elseif Toggles.teamEsp.Value == false and p.Team ~= LocalPlayer.Team and p.Team ~= "TTT" then
+                text1.Visible = Toggles.weaponEspTgl.Value
+                
+            elseif Toggles.teamEsp.Value == false and p.Team == LocalPlayer.Team and p.Team ~= "TTT" then
                 text1.Visible = false
             end
-        end)
+
+
+        else
+            text.Visible = false
+            text1.Visible = false
+        end
     end)
 end
 
 local function p_added(p)
     if p.Character then
-        pcall(function()
-            esp(p, p.Character)
-        end)
+        esp(p, p.Character)
     end
     p.CharacterAdded:Connect(function(cr)
-        pcall(function()
-            esp(p,cr)
-        end)
+        esp(p,cr)
     end)
 end
-    
+
 for i,p in next, Players:GetPlayers() do 
     if p ~= LocalPlayer then
-        pcall(function()
-            p_added(p)
-        end)
+        p_added(p)
     end
 end
 
-pcall(function()
-    Players.PlayerAdded:Connect(p_added)
-end)
-
-
+Players.PlayerAdded:Connect(p_added)
 
 
 
