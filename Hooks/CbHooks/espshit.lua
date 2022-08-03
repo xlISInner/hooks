@@ -317,20 +317,28 @@ end
 
 local function p_added(p)
     if p.Character then
-        esp(p, p.Character)
+        pcall(function()
+            esp(p, p.Character)
+        end)
     end
     p.CharacterAdded:Connect(function(cr)
-        esp(p,cr)
+        pcall(function()
+            esp(p,cr)
+        end)
     end)
 end
     
 for i,p in next, Players:GetPlayers() do 
     if p ~= LocalPlayer then
-        p_added(p)
+        pcall(function()
+            p_added(p)
+        end)
     end
 end
-    
-Players.PlayerAdded:Connect(p_added)
+
+pcall(function()
+    Players.PlayerAdded:Connect(p_added)
+end)
 
 
 
