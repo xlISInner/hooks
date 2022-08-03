@@ -308,22 +308,25 @@ local function esp(p,cr)
     end)
 end
 
-local function p_added(p)
-    if p.Character then
-        esp(p, p.Character)
+pcall(function()
+    local function p_added(p)
+        if p.Character then
+            esp(p, p.Character)
+        end
+        p.CharacterAdded:Connect(function(cr)
+            esp(p,cr)
+        end)
     end
-    p.CharacterAdded:Connect(function(cr)
-        esp(p,cr)
-    end)
-end
-
-for i,p in next, Players:GetPlayers() do 
-    if p ~= LocalPlayer then
-        p_added(p)
+    
+    for i,p in next, Players:GetPlayers() do 
+        if p ~= LocalPlayer then
+            p_added(p)
+        end
     end
-end
+    
+    Players.PlayerAdded:Connect(p_added)
+end)
 
-Players.PlayerAdded:Connect(p_added)
 
 
 
