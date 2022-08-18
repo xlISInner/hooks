@@ -13,11 +13,6 @@ oldragehook = hookmetamethod(game, "__namecall", function(Self, ...)
         return oldragehook(Self, unpack(Args))
     end
 
-    if Self.Name == "UpdatePing" and Toggles.wallbangTgl.Value then
-        Args[1] = 2000
-        return oldragehook(Self, unpack(Args))
-    end
-
     if Self.Name == "ControlTurn" and Toggles.antiAimTgl.Value then
         if Options.pitchValue.Value == "Down" then
             Args[1] = -0.9
