@@ -18,6 +18,14 @@ oldragehook = hookmetamethod(game, "__namecall", function(Self, ...)
         return oldragehook(Self, unpack(Args))
     end
 
-    if Method == "FindPartOnRayWithIgnoreList" and Toggles.rage
+    if Self.Name == "ControlTurn" and Toggles.antiAimTgl.Value then
+        if Options.pitchValue.Value == "Down" then
+            Args[1] = -0.9
+        elseif Options.pitchValue.Value == "Up" then
+            Args[1] = 0.9
+        end
+        return oldragehook(Self, unpack(Args))
+    end
+
     return oldragehook(Self, unpack(Args))
 end)
