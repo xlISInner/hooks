@@ -122,6 +122,9 @@ Toggles.selfChamsTgl:OnChanged(function()
                     v.Material = Enum.Material.ForceField
                     v.Color = Options.selfchamsColor.Value
                 end
+                if v:IsA("Accessory") then
+                    v:Destroy()
+                end
             end
         end
         task.wait()
