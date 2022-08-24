@@ -19,6 +19,10 @@ function characterrotate(pos)
     end)
 end
 
+local function convert_rgb_to_vertex(c3)
+    return Vector3.new(c3.R, c3.G, c3.B)
+ end
+
 Toggles.antiAimTgl:OnChanged(function()
     while Toggles.antiAimTgl.Value do
         if Options.yawValue.Value == 'Back' then
@@ -122,11 +126,62 @@ Toggles.selfChamsTgl:OnChanged(function()
             for i,v in pairs(LocalPlayer.Character:GetChildren()) do
                 if v.Parent ~= nil then
                     if v:IsA('BasePart') and v.Transparency ~= 1 then
-                        v.Material = Enum.Material.ForceField
+                        v.Material = Enum.Material[Options.selfChamsMaterial.Value]
                         v.Color = Options.selfchamsColor.Value
                     end
                     if v:IsA("Accessory") then
                         v:Destroy()
+                    end
+                end
+            end
+        end
+        task.wait()
+    end
+end)
+
+--[[
+    Please dont look at the arms chams its so stupid LMAO
+]]
+
+Toggles.armsChamsTgl:OnChanged(function()
+    while Toggles.armsChamsTgl.Value do
+        if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
+            wait()
+        else
+            for i,v in pairs(workspace.Camera.Arms:GetDescendants()) do
+                if v.Name == 'Right Arm' or v.Name == 'Left Arm' then
+                    if v:IsA("BasePart") then
+                        v.Material = Enum.Material[Options.armsChamsMaterial.Value]
+                        v.Color = Options.armsColor.Value
+                    end
+                elseif v:IsA("SpecialMesh") then
+                    if v.TextureId == '' or v.TextureId == "rbxassetid://0" then
+                        v.TextureId = 'rbxassetid://0'
+                        v.VertexColor = convert_rgb_to_vertex(Options.armsColor.Value)
+                    end
+                elseif v.Name == 'L' or v.Name == 'R' then
+                    v:Destroy()
+                end
+            end
+            for i,v in pairs(workspace.Camera.Arms:GetChildren()) do
+                if v:IsA("Model") then
+                    for i2,v2 in pairs(v:GetChildren()) do
+                        if v2.Name == "Left Arm" or v2.Name == "Right Arm" then
+                            for i3,v3 in pairs(v2:GetChildren()) do
+                                if v3.Name == "Sleeve" or v3.Name == "Glove" and v3:IsA("Part") then
+                                    v3.Color = Options.armsColor.Value
+                                    v3.Material = Enum.Material[Options.armsChamsMaterial.Value]
+                                end
+                                for i4, v4 in pairs(v3:GetChildren()) do
+                                    if v4:IsA("SpecialMesh") then
+                                        if v4.TextureId ~= '' then
+                                            v4.TextureId = 'rbxassetid://0'
+                                            v4.VertexColor = convert_rgb_to_vertex(Options.armsColor.Value)
+                                        end
+                                    end
+                                end
+                            end
+                        end
                     end
                 end
             end
