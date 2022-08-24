@@ -116,14 +116,18 @@ end)
 
 Toggles.selfChamsTgl:OnChanged(function()
     while Toggles.selfChamsTgl.Value do
-        for i,v in pairs(LocalPlayer.Character:GetChildren()) do
-            if v.Parent ~= nil then
-                if v:IsA('BasePart') and v.Transparency ~= 1 then
-                    v.Material = Enum.Material.ForceField
-                    v.Color = Options.selfchamsColor.Value
-                end
-                if v:IsA("Accessory") then
-                    v:Destroy()
+        if not LocalPlayer.Character then
+            wait()
+        else
+            for i,v in pairs(LocalPlayer.Character:GetChildren()) do
+                if v.Parent ~= nil then
+                    if v:IsA('BasePart') and v.Transparency ~= 1 then
+                        v.Material = Enum.Material.ForceField
+                        v.Color = Options.selfchamsColor.Value
+                    end
+                    if v:IsA("Accessory") then
+                        v:Destroy()
+                    end
                 end
             end
         end
