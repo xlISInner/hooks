@@ -84,7 +84,7 @@ end)
 
 Toggles.weaponChamsTgl:OnChanged(function()
     while Toggles.weaponChamsTgl.Value do
-        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") then
+        if not game:GetService("Workspace").Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
             wait()
         else
             for i,v in pairs(game:GetService("Workspace").Camera.Arms:GetDescendants()) do
