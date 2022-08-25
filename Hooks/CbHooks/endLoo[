@@ -189,3 +189,12 @@ Toggles.armsChamsTgl:OnChanged(function()
         task.wait()
     end
 end)
+
+Toggles.noSmokeTgl:OnChanged(function()
+    while Toggles.noSmokeTgl.Value do
+        for i,v in pairs(workspace["Ray_Ignore"].Smokes:GetChildren()) do
+            v:Destroy()
+        end
+        task.wait()
+    end
+end)
