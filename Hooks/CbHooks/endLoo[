@@ -30,7 +30,6 @@ function YROTATION(cframe)
     return CFrame.new(cframe.Position) * CFrame.Angles(0,y,0)
 end
 
-
 Toggles.antiAimTgl:OnChanged(function()
     while Toggles.antiAimTgl.Value do
         if Options.yawValue.Value == 'Back' then
@@ -48,8 +47,8 @@ Toggles.antiAimTgl:OnChanged(function()
             if game.Players.LocalPlayer.Character then
                 game.Players.LocalPlayer.Character:WaitForChild("Humanoid").AutoRotate = false
                 local spin = Instance.new('BodyAngularVelocity', game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart'))
-                spin.AngularVelocity = Vector3.new(0, math.random(-180, -Options.jitterOffset.Value), 0)
-                spin.MaxTorque = Vector3.new(0, 5000000, 0)
+                spin.AngularVelocity = Vector3.new(0, math.random(0, Options.jitterOffset.Value), 0)
+                spin.MaxTorque = Vector3.new(0, 350000, 0)
                 wait()
                 spin:Destroy()
             end
@@ -61,7 +60,6 @@ Toggles.antiAimTgl:OnChanged(function()
                 for _,plr in pairs(Players:GetPlayers()) do
                     if plr.Character and plr.Character:FindFirstChild("Humanoid") and plr.Character:FindFirstChild("Humanoid").Health > 0 and plr.Team ~= LocalPlayer.Team then
                         pcall(function()
-                            print('Check 1 ',plr.Name)
                             local pos, onScreen = Camera:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
                             local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
                             if closest > magnitude then
@@ -74,6 +72,7 @@ Toggles.antiAimTgl:OnChanged(function()
                     CFramePos = CFrame.new(Root.Position, part.Position) * CFrame.Angles(0, 179, 0)
                 end
                 Root.CFrame = YROTATION(CFramePos)
+                end
             end
         end
         task.wait()
