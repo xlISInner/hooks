@@ -2,6 +2,8 @@ local Lighting = game:GetService("Lighting")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local Camera = workspace.CurrentCamera
 
 function characterrotate(pos)
     pcall(function()
@@ -21,7 +23,13 @@ end
 
 local function convert_rgb_to_vertex(c3)
     return Vector3.new(c3.R, c3.G, c3.B)
- end
+end
+
+function YROTATION(cframe)
+    local x, y, z = cframe:ToOrientation()
+    return CFrame.new(cframe.Position) * CFrame.Angles(0,y,0)
+end
+
 
 Toggles.antiAimTgl:OnChanged(function()
     while Toggles.antiAimTgl.Value do
@@ -40,10 +48,32 @@ Toggles.antiAimTgl:OnChanged(function()
             if game.Players.LocalPlayer.Character then
                 game.Players.LocalPlayer.Character:WaitForChild("Humanoid").AutoRotate = false
                 local spin = Instance.new('BodyAngularVelocity', game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart'))
-                spin.AngularVelocity = Vector3.new(0, math.random(-60000, 55000), 0)
-                spin.MaxTorque = Vector3.new(0, 350000, 0)
+                spin.AngularVelocity = Vector3.new(0, math.random(-180, -Options.jitterOffset.Value), 0)
+                spin.MaxTorque = Vector3.new(0, 5000000, 0)
                 wait()
                 spin:Destroy()
+            end
+        elseif Options.yawValue.Value == 'At Targets' then
+            if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
+                local Root = LocalPlayer.Character.HumanoidRootPart
+                local part
+                local closest = 9999
+                for _,plr in pairs(Players:GetPlayers()) do
+                    if plr.Character and plr.Character:FindFirstChild("Humanoid") and plr.Character:FindFirstChild("Humanoid").Health > 0 and plr.Team ~= LocalPlayer.Team then
+                        pcall(function()
+                            print('Check 1 ',plr.Name)
+                            local pos, onScreen = Camera:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
+                            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+                            if closest > magnitude then
+                                part = plr.Character.HumanoidRootPart
+                            end
+                        end)
+                    end
+                end
+                if part ~= nil then
+                    CFramePos = CFrame.new(Root.Position, part.Position) * CFrame.Angles(0, 179, 0)
+                end
+                Root.CFrame = YROTATION(CFramePos)
             end
         end
         task.wait()
@@ -73,10 +103,52 @@ Toggles.thirdpersonTGL:OnChanged(function()
             LocalPlayer.CameraMode = 'Classic'
             game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
             game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
+            if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
+                wait()
+            else
+                for i,v in pairs(workspace.Camera.Arms:GetChildren()) do
+                    if v:IsA("MeshPart") and v.Transparency == 0 then
+                        v.Transparency = 2
+                    end
+                    if v:IsA("Model") then
+                        for i2,v2 in pairs(v:GetChildren()) do
+                            if v2.Name == "Left Arm" or v2.Name == "Right Arm" then
+                                v2.Transparency = 1
+                                for i3,v3 in pairs(v2:GetChildren()) do
+                                    if v3.Name == "Sleeve" or v3.Name == "Glove" and v3:IsA("Part") then
+                                        v3.Transparency = 1
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
         else
             LocalPlayer.CameraMode = 'LockFirstPerson'
             game.Players.LocalPlayer.CameraMaxZoomDistance = 0
             game.Players.LocalPlayer.CameraMinZoomDistance = 0
+            if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
+                wait()
+            else
+                for i,v in pairs(workspace.Camera.Arms:GetChildren()) do
+                    if v:IsA("MeshPart") and v.Transparency == 2 then
+                        v.Transparency = 0
+                    end
+                    if v:IsA("Model") then
+                        for i2,v2 in pairs(v:GetChildren()) do
+                            if v2.Name == "Left Arm" or v2.Name == "Right Arm" then
+                                v2.Transparency = 0
+                                for i3,v3 in pairs(v2:GetChildren()) do
+                                    if v3.Name == "Sleeve" or v3.Name == "Glove" and v3:IsA("Part") then
+                                        v3.Transparency = 0
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
         end
         task.wait()
     end
