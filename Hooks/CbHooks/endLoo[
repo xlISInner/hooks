@@ -72,7 +72,6 @@ Toggles.antiAimTgl:OnChanged(function()
                     CFramePos = CFrame.new(Root.Position, part.Position) * CFrame.Angles(0, 179, 0)
                 end
                 Root.CFrame = YROTATION(CFramePos)
-                end
             end
         end
         task.wait()
@@ -100,8 +99,8 @@ Toggles.thirdpersonTGL:OnChanged(function()
         if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
             UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
             LocalPlayer.CameraMode = 'Classic'
-            game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
-            game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
+            LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
+            LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
             if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
                 wait()
             else
@@ -125,8 +124,8 @@ Toggles.thirdpersonTGL:OnChanged(function()
             end
         else
             LocalPlayer.CameraMode = 'LockFirstPerson'
-            game.Players.LocalPlayer.CameraMaxZoomDistance = 0
-            game.Players.LocalPlayer.CameraMinZoomDistance = 0
+            LocalPlayer.CameraMaxZoomDistance = 0
+            LocalPlayer.CameraMinZoomDistance = 0
             if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
                 wait()
             else
