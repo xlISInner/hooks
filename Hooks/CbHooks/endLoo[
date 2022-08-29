@@ -73,6 +73,7 @@ Toggles.antiAimTgl:OnChanged(function()
                     Root.CFrame = YROTATION(CFramePos)
                 end
             end)
+        end
         task.wait()
     end
 end)
