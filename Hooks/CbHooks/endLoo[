@@ -60,23 +60,19 @@ Toggles.antiAimTgl:OnChanged(function()
                     local closest = 9999
                     for _,plr in pairs(Players:GetPlayers()) do
                         if plr.Character and plr.Character:FindFirstChild("Humanoid") and plr.Character:FindFirstChild("Humanoid").Health > 0 and plr.Team ~= LocalPlayer.Team then
-                            pcall(function()
-                                local pos, onScreen = Camera:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
-                                local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
-                                if closest > magnitude then
-                                    part = plr.Character.HumanoidRootPart
-                                end
-                            end)
+                            local pos, onScreen = Camera:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
+                            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+                            if closest > magnitude then
+                                part = plr.Character.HumanoidRootPart
+                            end
                         end
                     end
                     if part ~= nil then
                         CFramePos = CFrame.new(Root.Position, part.Position) * CFrame.Angles(0, 179, 0)
                     end
                     Root.CFrame = YROTATION(CFramePos)
-                    end
                 end
             end)
-        end
         task.wait()
     end
 end)
@@ -102,8 +98,8 @@ Toggles.thirdpersonTGL:OnChanged(function()
         if Toggles.thirdpersonTGL.Value and Options.thirdpersonkey:GetState() then
             UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter  
             LocalPlayer.CameraMode = 'Classic'
-            game.Players.LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
-            game.Players.LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
+            LocalPlayer.CameraMaxZoomDistance = Options.thirdPersonDistance.Value
+            LocalPlayer.CameraMinZoomDistance = Options.thirdPersonDistance.Value
             if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
                 wait()
             else
@@ -127,8 +123,8 @@ Toggles.thirdpersonTGL:OnChanged(function()
             end
         else
             LocalPlayer.CameraMode = 'LockFirstPerson'
-            game.Players.LocalPlayer.CameraMaxZoomDistance = 0
-            game.Players.LocalPlayer.CameraMinZoomDistance = 0
+            LocalPlayer.CameraMaxZoomDistance = 0
+            LocalPlayer.CameraMinZoomDistance = 0
             if not workspace.Camera:FindFirstChild("Arms") or LocalPlayer.Status.Alive.Value == false then
                 wait()
             else
