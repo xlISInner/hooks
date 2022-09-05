@@ -1,5 +1,7 @@
 local Fake = Instance.new('Animation', game.CoreGui)
 Fake.AnimationId = "rbxassetid://0"
+local Players = game:GetService('Players')
+local LocalPlayer = Players.LocalPlayer
 
 local oldanim
 oldanim = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
