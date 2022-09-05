@@ -18,7 +18,7 @@ oldanim = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
     return oldanim(Self, ...)
 end))
 
-local oldindex
+--[[local oldindex
 oldindex = hookmetamethod(game, "__index", newcclosure(function(self, key)
     if Toggles.gmToggle.Value then
         if not checkcaller() then
@@ -32,4 +32,4 @@ oldindex = hookmetamethod(game, "__index", newcclosure(function(self, key)
         end
     end
     return oldindex(self, key)
-end))
+end))]]
