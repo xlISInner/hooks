@@ -43,6 +43,7 @@ end
 
 if not table.find(ExpectedArgs, tostring(getgenv().Arg)) then
     game.Players.LocalPlayer:Kick('Kicked by RGK to prevent an exploiting ban. Please report this in the buyers discord. Code: Expected argument missing.')
+    return
 end
 
 spawn(function()
