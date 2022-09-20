@@ -23,7 +23,7 @@ Toggles.boxesTGL:OnChanged(function()
     local HeadOff = Vector3.new(0, 0.5, 0)
     local LegOff = Vector3.new(0,3,0)
 
-    for i,v in pairs(game.Players:GetChildren()) do
+    for i,v in pairs(game.Players:GetPlayers()) do
         local BoxOutline = Drawing.new("Square")
         BoxOutline.Visible = false
         BoxOutline.Color = Color3.new(0,0,0)
@@ -53,64 +53,66 @@ Toggles.boxesTGL:OnChanged(function()
 
 
         function boxesp()
-            game:GetService("RunService").RenderStepped:Connect(function()
-                if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= LocalPlayer and v.Character.Humanoid.Health > 0 then
-                    local Vector, onScreen = Camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
-    
-                    local RootPart = v.Character.HumanoidRootPart
-                    local Head = v.Character.Head
-                    local RootPosition, RootVis = WorldToViewportPoint(Camera, RootPart.Position)
-                    local HeadPosition = WorldToViewportPoint(Camera, Head.Position + HeadOff)
-                    local LegPosition = WorldToViewportPoint(Camera, RootPart.Position - LegOff)
-    
-                    if onScreen then
-                        BoxOutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -5)
-                        BoxOutline.Position = Vector2.new(RootPosition.X - BoxOutline.Size.X / 2, RootPosition.Y - BoxOutline.Size.Y / 2)
-                        BoxOutline.Visible = Toggles.boxesTGL.Value
-    
-                        Box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -5)
-                        Box.Position = Vector2.new(RootPosition.X - Box.Size.X / 2, RootPosition.Y - Box.Size.Y / 2)
-                        Box.Visible = Toggles.boxesTGL.Value
-                        Box.Color = Options.Boxes_Color.Value
-
-                        HealthBarOutline.Size = Vector2.new(2, HeadPosition.Y - LegPosition.Y)
-                        HealthBarOutline.Position = BoxOutline.Position - Vector2.new(6,0)
-                        HealthBarOutline.Visible = Toggles.toggleHpBar.Value
-
-                        HealthBar.Size = Vector2.new(2, (HeadPosition.Y - LegPosition.Y) / (v.Character.Humanoid.MaxHealth / math.clamp(v.Character.Humanoid.Health, 0, 100)))
-                        HealthBar.Position = Vector2.new(Box.Position.X - 6, Box.Position.Y + (1 / HealthBar.Size.Y))
-                        HealthBar.Color = Options.Hp_Bar_Color.Value
-                        HealthBar.Visible = Toggles.toggleHpBar.Value
-    
-                        if Toggles.teamEsp.Value and v.Team == LocalPlayer.Team and v.Team ~= "TTT" then
-                            BoxOutline.Visible = Toggles.boxesTGL.Value or false
-                            Box.Visible = Toggles.boxesTGL.Value or false
-                            HealthBarOutline.Visible = Toggles.toggleHpBar.Value or false
-                            HealthBar.Visible = Toggles.toggleHpBar.Value or false
-                        elseif Toggles.teamEsp.Value == false and v.Team ~= LocalPlayer.Team and v.Team ~= "TTT" then
+            pcall(function()
+                game:GetService("RunService").RenderStepped:Connect(function()
+                    if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= LocalPlayer and v.Character.Humanoid.Health > 0 then
+                        local Vector, onScreen = Camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+        
+                        local RootPart = v.Character.HumanoidRootPart
+                        local Head = v.Character.Head
+                        local RootPosition, RootVis = WorldToViewportPoint(Camera, RootPart.Position)
+                        local HeadPosition = WorldToViewportPoint(Camera, Head.Position + HeadOff)
+                        local LegPosition = WorldToViewportPoint(Camera, RootPart.Position - LegOff)
+        
+                        if onScreen then
+                            BoxOutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -5)
+                            BoxOutline.Position = Vector2.new(RootPosition.X - BoxOutline.Size.X / 2, RootPosition.Y - BoxOutline.Size.Y / 2)
                             BoxOutline.Visible = Toggles.boxesTGL.Value
+        
+                            Box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y) + Vector2.new(10, -5)
+                            Box.Position = Vector2.new(RootPosition.X - Box.Size.X / 2, RootPosition.Y - Box.Size.Y / 2)
                             Box.Visible = Toggles.boxesTGL.Value
+                            Box.Color = Options.Boxes_Color.Value
+    
+                            HealthBarOutline.Size = Vector2.new(2, HeadPosition.Y - LegPosition.Y)
+                            HealthBarOutline.Position = BoxOutline.Position - Vector2.new(6,0)
                             HealthBarOutline.Visible = Toggles.toggleHpBar.Value
+    
+                            HealthBar.Size = Vector2.new(2, (HeadPosition.Y - LegPosition.Y) / (v.Character.Humanoid.MaxHealth / math.clamp(v.Character.Humanoid.Health, 0, 100)))
+                            HealthBar.Position = Vector2.new(Box.Position.X - 6, Box.Position.Y + (1 / HealthBar.Size.Y))
+                            HealthBar.Color = Options.Hp_Bar_Color.Value
                             HealthBar.Visible = Toggles.toggleHpBar.Value
-                        elseif Toggles.teamEsp.Value == false and v.Team == LocalPlayer.Team and v.Team ~= "TTT" then
+        
+                            if Toggles.teamEsp.Value and v.Team == LocalPlayer.Team and v.Team ~= "TTT" then
+                                BoxOutline.Visible = Toggles.boxesTGL.Value or false
+                                Box.Visible = Toggles.boxesTGL.Value or false
+                                HealthBarOutline.Visible = Toggles.toggleHpBar.Value or false
+                                HealthBar.Visible = Toggles.toggleHpBar.Value or false
+                            elseif Toggles.teamEsp.Value == false and v.Team ~= LocalPlayer.Team and v.Team ~= "TTT" then
+                                BoxOutline.Visible = Toggles.boxesTGL.Value
+                                Box.Visible = Toggles.boxesTGL.Value
+                                HealthBarOutline.Visible = Toggles.toggleHpBar.Value
+                                HealthBar.Visible = Toggles.toggleHpBar.Value
+                            elseif Toggles.teamEsp.Value == false and v.Team == LocalPlayer.Team and v.Team ~= "TTT" then
+                                BoxOutline.Visible = false
+                                Box.Visible = false
+                                HealthBarOutline.Visible = false
+                                HealthBar.Visible = false
+                            end
+        
+                        else
                             BoxOutline.Visible = false
                             Box.Visible = false
                             HealthBarOutline.Visible = false
                             HealthBar.Visible = false
                         end
-    
                     else
                         BoxOutline.Visible = false
                         Box.Visible = false
                         HealthBarOutline.Visible = false
                         HealthBar.Visible = false
                     end
-                else
-                    BoxOutline.Visible = false
-                    Box.Visible = false
-                    HealthBarOutline.Visible = false
-                    HealthBar.Visible = false
-                end
+                end)
             end)
         end
         coroutine.wrap(boxesp)()
