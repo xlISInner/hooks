@@ -1,9 +1,11 @@
 local Lighting = game:GetService("Lighting")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local Camera = workspace.CurrentCamera
+local nadepath
 
 function characterrotate(pos)
     pcall(function()
@@ -266,5 +268,36 @@ Toggles.noSmokeTgl:OnChanged(function()
             v:Destroy()
         end
         task.wait()
+    end
+end)
+
+Toggles.annoySoundsTgl:OnChanged(function()
+    while Toggles.annoySoundsTgl.Value do
+        for i,v in pairs(workspace:GetDescendants()) do
+            if v:IsA("Sound") then
+                v:Play()
+            end
+        end
+        task.wait(10)
+    end
+end)
+
+Toggles.nadeEveryone:OnChanged(function()
+    while Toggles.nadeEveryone.Value do
+        for i,v in pairs(Players:GetPlayers()) do
+            if v.Character and v.Status.Alive.Value == true then
+                if Options.nadesDrop.Value == 'HE Grenade' then
+                    nadepath = ReplicatedStorage.Weapons["HE Grenade"].Model
+                elseif Options.nadesDrop.Value == 'Incendiary Grenade' then
+                    nadepath = ReplicatedStorage.Weapons["Incendiary Grenade"].Model
+                elseif Options.nadesDrop.Value == 'Smoke Grenade' then
+                    nadepath = ReplicatedStorage.Weapons["Smoke Grenade"].Model
+                elseif Options.nadesDrop.Value == 'Flashbang' then
+                    nadepath = ReplicatedStorage.Weapons.Flashbang.Model
+                end
+                ReplicatedStorage.Events.ThrowGrenade:FireServer(nadepath, nil, 25, 35, v.Character.Head.Position, "", "")
+            end
+        end
+        task.wait(1)
     end
 end)
